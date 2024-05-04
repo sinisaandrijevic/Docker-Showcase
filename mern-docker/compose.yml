@@ -1,0 +1,60 @@
+# Specify the version of docker-compose.
+version: "3.8"
+
+# define the services/containers to be run
+services:
+  # Define the frontend service.
+  # we can use any name for the service. A standard naming convention is to use "web" for the frontend.
+  web:
+    # Dependence on API service
+    depends_on: 
+      - api
+    # Specify the build context for the web service.
+    # This is the directory where the Dockerfile for the web service is located.
+    build: ./frontend
+    # Ports to expose for the frontend service
+    # The first number is the port on the host machine.
+    # The second number is the port inside the container.
+    ports:
+      - 5173:5173
+    # Environment variables for the frontend service
+    # These environment variables will be available inside the container.
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+  # API Service
+  api: 
+    # Dependence on DB service
+    depends_on: 
+      - db
+    # Build context for the API service
+    build: ./backend
+    # Ports to expose for the API service
+    # The first number is the port on the host machine.
+    # The second number is the port inside the container.
+    ports: 
+      - 8000:8000
+    # Environment variables for the API service
+    # For demo purposes, we're using a local mongodb instance.
+    environment: 
+      DB_URL: mongodb://db/docker
+
+  # Database Service
+  db:
+    # Use MongoDB latest image from Docker Hub
+    image: mongo:latest
+    # Ports to expose for the DB service
+    # Generally, we do this in api service using MongoDB Atlas, but for demonstration purposes, we're using a local MongoDB instance.
+    # Usually, MongoDB runs on port 27017. So we're exposing the port 27017 on the host machine and mapping it to the port 27017 inside the container.
+
+    ports:
+      - 27017:27017
+    # Volumes to mount for the DB service
+    # We're mounting the volume named "docker" inside the container at /data/db directory.
+    # This is done so that the data inside the mongodb container is persisted even if the container is stopped.
+    volumes:
+      - docker:/data/db
+
+# Define the volumes to be used by the services.
+volumes:
+  docker:

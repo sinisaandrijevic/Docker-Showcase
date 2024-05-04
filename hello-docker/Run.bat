@@ -11,3 +11,6 @@ docker images
 
 REM Run the Docker container based on the "hello-docker" image.
 docker run hello-docker
+
+REM docker run -it hello-docker sh
+REM This puts us directly within the OS and then we can type 'node hello.js' to run the commands.

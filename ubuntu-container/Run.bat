@@ -1,7 +1,7 @@
 @echo off
 
 docker pull ubuntu
-REM Pulls the latest Ubuntu Docker image.
+REM Pulls the latest Ubuntu Docker image from the Docker Hub.
 REM You can access the Ubuntu image through Docker Desktop under Images.
 
 docker run -it ubuntu

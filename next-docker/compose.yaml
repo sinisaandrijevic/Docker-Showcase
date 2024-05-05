@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    # Uncomment the following lines if you wish to run a local instance of MongoDB.
+    # depends_on:
+    #   - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Port mapping enables access to the application via the browser.
+    ports:
+      - 3000:3000
+    
+    # Environment variables definition.
+    environment:
+      # MongoDB Atlas connection string required for database access.
+      DB_URL: mongodb+srv://<username>:<password>@<host>/<dbname>
+
+  # Using MongoDB Atlas eliminates the necessity for a local MongoDB instance.
+  # However, if you prefer a local setup, you can use the following configuration.
+  # db:
+  #   image: mongo
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=username
+  #     - MONGO_INITDB_ROOT_PASSWORD=password
+  #   volumes:
+  #     - tasked:/data/db
+    
+# Docker volume definition.
+volumes:
+  tasked:
